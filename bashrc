@@ -2,6 +2,7 @@
 RESET="\[\033[00m\]"
 fgWHITE="\[\033[1;38;5;254m\]"
 fgSEC="\[\033[1;38;5;2m\]"
+fgDARK_GREY="\[\033[38;5;239m\]"
 
 bgDARK_GREY="\[\033[48;5;239m\]"
 bgMAIN="\[\033[48;5;4m\]"
@@ -34,8 +35,12 @@ parse_conda_env() {
   fi
 }
 
+separator() {
+    echo -e $'\uE0B0'
+}
+
 # PS
-export PS1="${fgWHITE}${bgDARK_GREY} \u@\h ${RESET}${bgDARK_GREY}[ \W ] ${fgWHITE}${bgSEC}\$(parse_git_branch)${RESET} \$(date +%T) $ "
+export PS1="${fgWHITE}${bgSEC}\$(parse_git_branch)${bgDARK_GREY} \u@\h ${RESET}${bgDARK_GREY}[ \W ] ${RESET}${fgDARK_GREY}\$(separator)${RESET} \$(date +%T) ${fgWHITE}$ ${RESET}"
 export PS2="${fgSEC}~${RESET} "
 
 # SSH setup
