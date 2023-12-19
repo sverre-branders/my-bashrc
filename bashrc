@@ -1,4 +1,4 @@
-
+# PS
 RESET="\[\033[00m\]"
 fgWHITE="\[\033[1;38;5;254m\]"
 fgSEC="\[\033[1;38;5;2m\]"
@@ -47,9 +47,7 @@ separator() {
     echo -e $'\uE0B0'
 }
 
-# PS
-export
-PS1="${fgWHITE}${bgSEC}\$(parse_git_status)\$(parse_git_branch)${fgSEC}${bgDARK_GREY}\$(separator)${RESET}${bgDARK_GREY} \u@\h ${fgWHITE}[ \W ] ${RESET}${fgDARK_GREY}\$(separator)${RESET} \$(date +%T) ${fgWHITE}$ ${RESET}"
+export PS1="${fgWHITE}${bgSEC}\$(parse_git_status)\$(parse_git_branch)${fgSEC}${bgDARK_GREY}\$(separator)${RESET}${bgDARK_GREY} \u@\h ${fgWHITE}[ \W ] ${RESET}${fgDARK_GREY}\$(separator)${RESET} \$(date +%T) ${fgWHITE}$ ${RESET}"
 export PS2="${fgSEC}~${RESET} "
 
 # SSH setup
@@ -57,7 +55,7 @@ SSH_ENV="$HOME/.ssh/ssh_env"
 function start_agent {
     echo "Initialising new SSH agent..."
     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
-    echo succeeded
+    echo "Succeeded"
     chmod 600 "${SSH_ENV}"
     . "${SSH_ENV}" > /dev/null
     /usr/bin/ssh-add;
