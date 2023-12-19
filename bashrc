@@ -22,6 +22,14 @@ parse_git_branch() {
   fi
 }
 
+parse_git_status() {
+    if [[ -z $(git status -s) ]]; then
+        echo ''
+    else
+        echo " [+]"
+    fi
+}
+
 parse_time() {
     echo " [ $(date +%T) ] "
 }
@@ -40,7 +48,8 @@ separator() {
 }
 
 # PS
-export PS1="${fgWHITE}${bgSEC}\$(parse_git_branch)${bgDARK_GREY} \u@\h ${RESET}${bgDARK_GREY}[ \W ] ${RESET}${fgDARK_GREY}\$(separator)${RESET} \$(date +%T) ${fgWHITE}$ ${RESET}"
+export
+PS1="${fgWHITE}${bgSEC}\$(parse_git_status)\$(parse_git_branch)${fgSEC}${bgDARK_GREY}\$(separator)${RESET}${bgDARK_GREY} \u@\h ${fgWHITE}[ \W ] ${RESET}${fgDARK_GREY}\$(separator)${RESET} \$(date +%T) ${fgWHITE}$ ${RESET}"
 export PS2="${fgSEC}~${RESET} "
 
 # SSH setup
