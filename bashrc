@@ -9,24 +9,28 @@ bgMAIN="\[\033[48;5;4m\]"
 bgSEC="\[\033[48;5;2m\]"
 
 parse_git_branch() {
-  if [ -d "$(git rev-parse --git-dir 2>/dev/null)" ]; then
-    branch=$(git symbolic-ref --short HEAD 2>/dev/null)
-    commit=$(git rev-parse --short HEAD)
-    if [ -n "$branch" ]; then
-      echo " [ $branch - $commit ] "
+    if [ -d "$(git rev-parse --git-dir 2>/dev/null)" ]; then
+        branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+        commit=$(git rev-parse --short HEAD)
+        if [ -n "$branch" ]; then
+            echo " [ $branch - $commit ] "
+        else
+            echo " [ $commit ] "
+        fi
     else
-      echo " [ $commit ] "
+        echo ''
     fi
-  else
-    echo ''
-  fi
 }
 
 parse_git_status() {
-    if [[ -z $(git status -s) ]]; then
-        echo ''
+    if [ -d "$(git rev-parse --git-dir 2>/dev/null)" ]; then
+        if [[ -z $(git status -s) ]]; then
+            echo ''
+        else
+            echo " [+]"
+        fi
     else
-        echo " [+]"
+        echo ''
     fi
 }
 
