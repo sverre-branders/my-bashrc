@@ -18,5 +18,5 @@ if [ -f "${SSH_ENV}" ]; then
 else
     start_agent;
 fi
-ssh-add ${SSH_ENV%ssh_env}*
+ssh-add ${SSH_ENV%ssh_env}* 2>/dev/null
 
