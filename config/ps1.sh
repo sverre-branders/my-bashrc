@@ -41,14 +41,15 @@ parse_git() {
     # Get info
     local commit="$(git log --pretty=format:'%h' -n 1)"
     local branch="$(git branch --show-current)"
-    local modified
+    local modified=""
     modified_cmd="$(git diff-index --quiet HEAD --)"
     timeout --preserve-status 0.1s bash -c "$modified_cmd"
     mod_exit_status=$?
     case $mod_exit_status in
         1) modified="";;
         0) modified="[+] ";;
-        *) modified="* ";;
+        143) modified="* ";;
+        *) modified="E ";;
     esac
 
     # Print Status
