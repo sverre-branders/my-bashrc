@@ -48,7 +48,7 @@ parse_git() {
     if [[ -n $modified ]]; then
         string+=$modified
     fi
-    string+=" [ $branch - $commit ] "
+    string+=" $branch - $commit "
     echo -n "$string"
 }
 
@@ -60,10 +60,11 @@ PS1=""
 PS1+="$(BG sec)$(FG bWhite)\$(parse_git)${RESET}" # Git status
 PS1+="$(FG sec)$(BG dark)$SEP${RESET}" # Separator
 
-PS1+="$(BG dark)$(FG bWhite) \u@\h ${RESET}" # User info
+# PS1+="$(BG dark)$(FG bWhite) \u@\h ${RESET}" # User info
+PS1+="$(BG dark)$(FG bWhite) \W ${RESET}" # Directory
 PS1+="$(FG dark)$SEP${RESET}" # Separator
 
-PS1+="$(FG white) [ $(date +%T) ] ${RESET}" # Time stamp
+PS1+="$(FG dark) $(date +%T) ${RESET}" # Time stamp
 PS1+="$CMD_symbol "
 
 
