@@ -41,14 +41,21 @@ parse_git() {
     # Get info
     local commit="$(git log --pretty=format:'%h' -n 1)"
     local branch="$(git branch 2>/dev/null | grep '^\*' | sed -e "s/^* //")"
-    local modified="$(git diff-index --quiet HEAD -- || echo " [+]")"
+    local modified
+    modified_cmd="$(git diff-index --quiet HEAD --)"
+    timeout 0.2s bash -c "$modified_cmd"
+    exit_status=$?
+    case $exit_status in
+        1) modified="";;
+        0) modified="[+] ";;
+        124) modified="* ";;
+        *) modified="E ";;
+    esac
 
     # Print Status
     local string=""
-    if [[ -n $modified ]]; then
-        string+=$modified
-    fi
     string+=" $branch - $commit "
+    string+=$modified
     echo -n "$string"
 }
 
