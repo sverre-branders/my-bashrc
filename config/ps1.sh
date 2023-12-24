@@ -40,16 +40,15 @@ parse_git() {
 
     # Get info
     local commit="$(git log --pretty=format:'%h' -n 1)"
-    local branch="$(git branch 2>/dev/null | grep '^\*' | sed -e "s/^* //")"
+    local branch="$(git branch --show-current)"
     local modified
     modified_cmd="$(git diff-index --quiet HEAD --)"
-    timeout 0.2s bash -c "$modified_cmd"
-    exit_status=$?
-    case $exit_status in
+    timeout --preserve-status 0.1s bash -c "$modified_cmd"
+    mod_exit_status=$?
+    case $mod_exit_status in
         1) modified="";;
         0) modified="[+] ";;
-        124) modified="* ";;
-        *) modified="E ";;
+        *) modified="* ";;
     esac
 
     # Print Status
