@@ -46,8 +46,8 @@ parse_git() {
     timeout --preserve-status 0.1s bash -c "$modified_cmd"
     mod_exit_status=$?
     case $mod_exit_status in
-        1) modified="";;
-        0) modified="[+] ";;
+        0) modified="";;
+        1) modified="[+] ";;
         143) modified="* ";;
         *) modified="E ";;
     esac
