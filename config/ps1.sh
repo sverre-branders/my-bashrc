@@ -53,8 +53,15 @@ parse_time() {
     echo -n " [ $(date +%T) ] "
 }
 
+parse_conda() {
+    if [ ! -n "$CONDA_DEFAULT_ENV" ]; then
+        return
+    fi
+    echo -n " $CONDA_DEFAULT_ENV "
+}
+
 PS1=""
-PS1+="$(FG dark)$(BG white)$(echo -n "$CONDA_DEFAULT_ENV")${reset}" # Conda environment
+PS1+="$(FG dark)$(BG white)\$(parse_conda)${reset}" # Conda environment
 PS1+="$(FG white)$(BG sec)$SEP${RESET}" # Separator
 
 PS1+="$(FG dark)$(BG sec)\$(parse_git)${RESET}" # Git status
