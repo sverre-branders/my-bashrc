@@ -54,14 +54,13 @@ parse_time() {
 }
 
 PS1=""
-PS1+="$(BG white)$(FG bDark)$(echo -n "$CONDA_DEFAULT_ENV")${reset}" # Conda environment
+PS1+="$(FG dark)$(BG white)$(echo -n "$CONDA_DEFAULT_ENV")${reset}" # Conda environment
 PS1+="$(FG white)$(BG sec)$SEP${RESET}" # Separator
 
-PS1+="$(BG sec)$(FG bDark)\$(parse_git)${RESET}" # Git status
+PS1+="$(FG dark)$(BG sec)\$(parse_git)${RESET}" # Git status
 PS1+="$(FG sec)$(BG dark)$SEP${RESET}" # Separator
 
-# PS1+="$(BG dark)$(FG bWhite) \u@\h ${RESET}" # User info
-PS1+="$(BG dark)$(FG bWhite) \W ${RESET}" # Directory
+PS1+="$(FG white)$(BG dark) \W ${RESET}" # Directory
 PS1+="$(FG dark)$SEP${RESET}" # Separator
 
 PS1+="$(FG dark) $(date +%T) ${RESET}" # Time stamp
