@@ -61,7 +61,7 @@ parse_conda() {
 }
 
 PS1=""
-PS1+="$(FG dark)$(BG white)\$(parse_conda)${reset}" # Conda environment
+PS1+="$(FG dark)$(BG white)\$(parse_conda)${RESET}" # Conda environment
 PS1+="$(FG white)$(BG sec)$SEP${RESET}" # Separator
 
 PS1+="$(FG dark)$(BG sec)\$(parse_git)${RESET}" # Git status
