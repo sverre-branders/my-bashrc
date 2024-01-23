@@ -11,7 +11,7 @@
 # - $FZF_ALT_C_COMMAND
 # - $FZF_ALT_C_OPTS
 
-FZF_ALT_C_OPTS="--height 15 --min-height 2 --border rounded --layout reverse --info hidden --preview 'ls {}' --pointer ⮞ --marker '*' --prompt '' --color 'hl:2,marker:white,pointer:white,spinner:2'"
+FZF_ALT_C_OPTS="--height 15 --min-height 2 --info hidden --preview 'ls {}'"
 
 # Key bindings
 # ------------

@@ -11,5 +11,6 @@ source "${bashrc_path%/bashrc}/config/ps1.sh"
 source "${bashrc_path%/bashrc}/config/ssh_setup.sh"
 source "${bashrc_path%/bashrc}/config/ls_colors.sh"
 # fzf  
+source "${bashrc_path%/bashrc}/fzf/fzf_defaults.sh"
 source "${bashrc_path%/bashrc}/fzf/bash-completions-fzf"
 source "${bashrc_path%/bashrc}/fzf/key-bindings.bash"
