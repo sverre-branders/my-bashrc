@@ -95,4 +95,10 @@ bind -m emacs-standard '"\ec": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\
 bind -m vi-command '"\ec": "\C-z\ec\C-z"'
 bind -m vi-insert '"\ec": "\C-z\ec\C-z"'
 
+# CUSTOM: ALT-B - cd back up the file tree
+source ./scripts/nav_back.sh
+bind -m emacs-standard '"\eb": " \C-b\C-k \C-u`__cd_back__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
+bind -m vi-command '"\eb": "\C-z\ec\C-z"'
+bind -m vi-insert '"\eb": "\C-z\ec\C-z"'
+
 fi
