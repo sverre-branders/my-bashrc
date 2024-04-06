@@ -5,7 +5,9 @@ bashrc_path=$(realpath $HOME/.bashrc)
 if [ -e "${bashrc_path%/bashrc}/config/.conda.sh" ]; then
     source "${bashrc_path%/bashrc}/config/.conda.sh"
 fi
-source "${bashrc_path%/bashrc}/config/.paths.sh"
+if [ -e "${bashrc_path%/bashrc}/config/.paths.sh" ]; then
+    source "${bashrc_path%/bashrc}/config/.paths.sh"
+fi
 
 source "${bashrc_path%/bashrc}/config/ps1.sh"
 source "${bashrc_path%/bashrc}/config/ssh_setup.sh"
