@@ -5,3 +5,7 @@ csv() {
 tsv() {
     column -s $'\t' -t "$1" | less -RS
 }
+
+json() {
+    jq '.' -C "$1" | less -RS
+}
