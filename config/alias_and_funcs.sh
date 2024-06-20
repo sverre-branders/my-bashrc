@@ -9,3 +9,5 @@ tsv() {
 json() {
     jq '.' -C "$1" | less -RS
 }
+
+alias R='R --no-save --no-restore-data'
