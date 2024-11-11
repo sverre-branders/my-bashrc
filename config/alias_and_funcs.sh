@@ -11,3 +11,4 @@ json() {
 }
 
 alias R='R --no-save --no-restore-data'
+alias conda_export='conda env export --no-builds | grep -v "^prefix: "'
