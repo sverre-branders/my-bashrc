@@ -1,8 +1,8 @@
 # Color Definitions
-WHITE="254"
-DARK="239"
+WHITE="15"
+DARK="8"
 MAIN="4"
-SEC="2"
+SEC="12"
 
 FG() {
     case $1 in
@@ -28,7 +28,7 @@ BG() {
     esac
 }
 
-CMD_symbol=$(echo -n -e "\u2B9E")
+CMD_symbol=$(echo -n -e "|")
 SEP=$(echo -n -e "\uE0B0\u2B9E")
 RESET="$(echo -n -e "\[\033[0m\]")"
 
@@ -62,13 +62,13 @@ parse_conda() {
 
 PS1=""
 PS1+="$(FG dark)$(BG white)\$(parse_conda)${RESET}" # Conda environment
-PS1+="$(FG white)$(BG sec)$SEP${RESET}" # Separator
+PS1+="$(FG white)$(BG sec)${RESET}" # Separator
 
 PS1+="$(FG dark)$(BG sec)\$(parse_git)${RESET}" # Git status
-PS1+="$(FG sec)$(BG dark)$SEP${RESET}" # Separator
+PS1+="$(FG sec)$(BG dark)${RESET}" # Separator
 
 PS1+="$(FG white)$(BG dark) \W ${RESET}" # Directory
-PS1+="$(FG dark)$SEP${RESET}" # Separator
+PS1+="$(FG dark)${RESET}" # Separator
 
 PS1+="$(FG dark) $(date +%T) ${RESET}" # Time stamp
 PS1+="$CMD_symbol "
