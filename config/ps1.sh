@@ -28,8 +28,11 @@ BG() {
     esac
 }
 
-CMD_symbol=$(echo -n -e "|")
-SEP=$(echo -n -e "\uE0B0\u2B9E")
+HOST_NAME=$(hostnamectl hostname --pretty)
+CMD_symbol=$(echo -n -e "\u2523")
+TOP_symbol=$(echo -e "\u250F\u2501\u252B")
+SEP_symbol=$(echo -e "\u2503")
+BOTTOM_symbol=$(echo -e "\u2517\u252B")
 RESET="$(echo -n -e "\[\033[0m\]")"
 
 parse_git() {
@@ -61,16 +64,22 @@ parse_conda() {
 }
 
 PS1=""
+# First Line
+PS1+="$(FG dark)$TOP_symbol"
+PS1+="$(FG white)$(BG dark) $HOST_NAME $RESET"
+PS1+="$(FG dark)$SEP_symbol\w $RESET\n"
+
+# Second Line
+PS1+="$(FG dark)$BOTTOM_symbol$RESET"
+
+
 PS1+="$(FG dark)$(BG white)\$(parse_conda)${RESET}" # Conda environment
 PS1+="$(FG white)$(BG sec)${RESET}" # Separator
 
 PS1+="$(FG dark)$(BG sec)\$(parse_git)${RESET}" # Git status
 PS1+="$(FG sec)$(BG dark)${RESET}" # Separator
 
-PS1+="$(FG white)$(BG dark) \W ${RESET}" # Directory
-PS1+="$(FG dark)${RESET}" # Separator
-
-PS1+="$(FG dark) $(date +%T) ${RESET}" # Time stamp
-PS1+="$CMD_symbol "
+PS1+="$(FG dark)$SEP_symbol$(date +%T)${RESET}" # Time stamp
+PS1+="$(FG dark)$CMD_symbol${RESET} "
 
 
