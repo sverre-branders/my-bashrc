@@ -71,15 +71,13 @@ PS1+="$(FG dark)$SEP_symbol\w $RESET\n"
 
 # Second Line
 PS1+="$(FG dark)$BOTTOM_symbol$RESET"
-
+PS1+="$(FG dark)$(date +%T)${RESET}" # Time stamp
+PS1+="$(FG dark)$SEP_symbol${RESET}"
 
 PS1+="$(FG dark)$(BG white)\$(parse_conda)${RESET}" # Conda environment
-PS1+="$(FG white)$(BG sec)${RESET}" # Separator
 
 PS1+="$(FG dark)$(BG sec)\$(parse_git)${RESET}" # Git status
-PS1+="$(FG sec)$(BG dark)${RESET}" # Separator
 
-PS1+="$(FG dark)$SEP_symbol$(date +%T)${RESET}" # Time stamp
 PS1+="$(FG dark)$CMD_symbol${RESET} "
 
 
