@@ -43,7 +43,15 @@ __fzf_cd__() {
   local cmd dir
   cmd="${FZF_ALT_C_COMMAND:-"command find -L . -mindepth 1 -maxdepth 3 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
     -o -type d -print 2> /dev/null | cut -b3-"}"
-  dir=$(eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m) && printf 'cd -- %q' "$dir"
+  cmd_2="$(cat "$CD_HISTORY" 2>/dev/null)"
+  
+  # Combine the history and find command output
+  dir=$(eval "$cmd" | cat <(echo "$cmd_2") - | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse --bind=ctrl-z:ignore $FZF_DEFAULT_OPTS $FZF_ALT_C_OPTS" $(__fzfcmd) +m)
+  
+  # If a directory was selected, change to it
+  if [ -n "$dir" ]; then
+    printf 'cd -- %q\n' "$dir"
+  fi
 }
 
 __fzf_history__() {
