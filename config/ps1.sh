@@ -31,7 +31,8 @@ BG() {
 HOST_NAME=$(hostnamectl hostname --pretty)
 CMD_symbol=$(echo -n -e "\u2523")
 TOP_symbol=$(echo -e "\u250F\u2501\u252B")
-SEP_symbol=$(echo -e "\u2503")
+bSEP_symbol=$(echo -e "\u2503")
+SEP_symbol=$(echo -e "\u2502")
 BOTTOM_symbol=$(echo -e "\u2517\u252B")
 RESET="$(echo -n -e "\[\033[0m\]")"
 
@@ -47,9 +48,9 @@ parse_git() {
 
     # Print Status
     local string=""
-    string+=" $branch - $commit "
+    string+="$branch-$commit"
     string+=$modified
-    echo -n "$string"
+    echo -n "$SEP_symbol$string"
 }
 
 parse_time() {
@@ -60,24 +61,22 @@ parse_conda() {
     if [ ! -n "$CONDA_DEFAULT_ENV" ]; then
         return
     fi
-    echo -n " $CONDA_DEFAULT_ENV "
+    echo -n "$SEP_symbol$CONDA_DEFAULT_ENV "
 }
 
 PS1=""
 # First Line
 PS1+="$(FG dark)$TOP_symbol"
 PS1+="$(FG white)$(BG dark) $HOST_NAME $RESET"
-PS1+="$(FG dark)$SEP_symbol\w $RESET\n"
+PS1+="$(FG dark)$bSEP_symbol\w $RESET\n"
 
 # Second Line
 PS1+="$(FG dark)$BOTTOM_symbol$RESET"
 PS1+="$(FG dark)$(date +%T)${RESET}" # Time stamp
-PS1+="$(FG dark)$SEP_symbol${RESET}"
 
-PS1+="$(FG dark)$(BG white)\$(parse_conda)${RESET}" # Conda environment
+PS1+="$(FG main)\$(parse_conda)${RESET}" # Conda environment
 
-PS1+="$(FG dark)$(BG sec)\$(parse_git)${RESET}" # Git status
+PS1+="$(FG sec)\$(parse_git)${RESET}" # Git status
 
 PS1+="$(FG dark)$CMD_symbol${RESET} "
-
 
