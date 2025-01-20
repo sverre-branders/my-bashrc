@@ -61,7 +61,7 @@ parse_conda() {
     if [ ! -n "$CONDA_DEFAULT_ENV" ]; then
         return
     fi
-    echo -n "$SEP_symbol$CONDA_DEFAULT_ENV "
+    echo -n "$SEP_symbol$CONDA_DEFAULT_ENV"
 }
 
 PS1=""
