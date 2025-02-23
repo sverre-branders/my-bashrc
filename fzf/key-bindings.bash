@@ -109,4 +109,7 @@ bind -m emacs-standard '"\eb": " \C-b\C-k \C-u`__cd_back__`\e\C-e\er\C-m\C-y\C-h
 bind -m vi-command '"\eb": "\C-z\ec\C-z"'
 bind -m vi-insert '"\eb": "\C-z\ec\C-z"'
 
+# CUSTOM: audio_device
+source "${bashrc_path%/bashrc}/fzf/scripts/select_audio_device.sh.sh"
+
 fi
