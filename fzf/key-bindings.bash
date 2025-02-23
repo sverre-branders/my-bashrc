@@ -110,6 +110,6 @@ bind -m vi-command '"\eb": "\C-z\ec\C-z"'
 bind -m vi-insert '"\eb": "\C-z\ec\C-z"'
 
 # CUSTOM: audio_device
-source "${bashrc_path%/bashrc}/fzf/scripts/select_audio_device.sh.sh"
+source "${bashrc_path%/bashrc}/fzf/scripts/select_audio_device.sh"
 
 fi
