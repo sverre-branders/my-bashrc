@@ -19,3 +19,5 @@ source "${bashrc_path%/bashrc}/fzf/scripts/keep_cd_history.sh"
 source "${bashrc_path%/bashrc}/fzf/fzf_defaults.sh"
 source "${bashrc_path%/bashrc}/fzf/bash-completions-fzf"
 source "${bashrc_path%/bashrc}/fzf/key-bindings.bash"
+
+umask 027
