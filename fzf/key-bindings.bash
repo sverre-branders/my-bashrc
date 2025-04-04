@@ -50,7 +50,7 @@ __fzf_cd__() {
   
   # If a directory was selected, change to it
   if [ -n "$dir" ]; then
-    printf 'cd -- %q\n' "$dir"
+    printf 'cd %q\n' "$dir"
   fi
 }
 
