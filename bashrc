@@ -21,4 +21,6 @@ source "${bashrc_path%/bashrc}/fzf/bash-completions-fzf"
 source "${bashrc_path%/bashrc}/fzf/key-bindings.bash"
 
 umask 027
-. "$HOME/.cargo/env"
+if [ -d "$HOME/.cargo/" ]; then
+    . "$HOME/.cargo/env"
+fi
