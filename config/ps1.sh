@@ -37,31 +37,22 @@ BOTTOM_symbol=$(echo -e "\u2517\u252B")
 RESET="$(echo -n -e "\[\033[0m\]")"
 
 parse_git() {
-    # Check whether in git repo
-    if ! git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
-        return
-    fi
-
     # Get info
-    local commit="$(git log --pretty=format:'%h' -n 1)"
+    local commit="$(git log --pretty=format:'%h' -n 1 2>/dev/null)"
+    if [ -z "$commit" ]; then
+      commit='no commits'
+    fi
     local branch="$(git branch --show-current)"
 
     # Print Status
     local string=""
     string+="$branch-$commit"
     string+=$modified
-    echo -n "$SEP_symbol$string"
+    echo -n "$string"
 }
 
 parse_time() {
     echo -n " [ $(date +%T) ] "
-}
-
-parse_conda() {
-    if [ ! -n "$CONDA_DEFAULT_ENV" ]; then
-        return
-    fi
-    echo -n "$SEP_symbol$CONDA_DEFAULT_ENV"
 }
 
 PS1=""
@@ -74,9 +65,13 @@ PS1+="$(FG dark)$bSEP_symbol\w $RESET\n"
 PS1+="$(FG dark)$BOTTOM_symbol$RESET"
 PS1+="$(FG dark)$(date +%T)${RESET}" # Time stamp
 
-PS1+="$(FG main)\$(parse_conda)${RESET}" # Conda environment
+if [ -n "$CONDA_DEFAULT_ENV" ]; then
+    PS1+="$(FG main)${SEP_symbol}${CONDA_DEFAULT_ENV}${RESET}" # Conda environment
+fi
 
-PS1+="$(FG sec)\$(parse_git)${RESET}" # Git status
+if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+    PS1+="$(FG sec)${SEP_symbol}\$(parse_git)${RESET}" # Git status
+fi
 
 PS1+="$(FG dark)$CMD_symbol${RESET} "
 
