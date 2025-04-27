@@ -126,3 +126,8 @@ git-commit-show ()
                 {}
 FZF-EOF" --preview-window=right:60%
 }
+
+conda-activate-env ()
+{
+    conda activate "$(conda env list | grep -v '^#' | fzf | awk '{print $1}')"
+}
