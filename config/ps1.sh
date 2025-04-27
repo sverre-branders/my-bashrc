@@ -66,33 +66,35 @@ parse_time() {
     echo -n "$(date +%T)"
 }
 
-PS1=""
-# 
-if [ "$USE_POWERLINE_SYMBOLS" -eq 1 ]; then
-    PS1+="$(FG dark)$PL_CIRCLE_RIGHT$(FG bWhite)$(BG dark)"
-    if [ "$SHOW_USER" -eq 1 ]; then
-        PS1+=" $USER $PL_ARROW_RIGHT"
+set_powerline_prompt() {
+    PS1=""
+    # 
+    if [ "$USE_POWERLINE_SYMBOLS" -eq 1 ]; then
+        PS1+="$(FG dark)$PL_CIRCLE_RIGHT$(FG bWhite)$(BG dark)"
+        if [ "$SHOW_USER" -eq 1 ]; then
+            PS1+=" \$USER $PL_ARROW_RIGHT"
+        fi
+        PS1+=" \W "
+
+        if [ -n "$CONDA_DEFAULT_ENV" ] || git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+            PS1+="$(FG dark)$(BG sec)$PL_TRIANGLE_RIGHT$(FG white)$(BG sec)"
+            if [ -n "$CONDA_DEFAULT_ENV" ]; then
+                PS1+=" ${CONDA_SYMBOL} \$CONDA_DEFAULT_ENV "
+            fi
+            if [ -n "$CONDA_DEFAULT_ENV" ] && git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+                PS1+="$PL_ARROW_RIGHT"
+            fi
+            if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+                PS1+=" $GIT_SYMBOL \$(parse_git) "
+            fi
+            PS1+="${RESET}$(FG sec)$PL_TRIANGLE_RIGHT"
+        else
+            PS1+="${RESET}$(FG dark)$PL_TRIANGLE_RIGHT"
+        fi
+        PS1+="$(FG dark)${CMD_SYMBOL}${RESET} "
+
+        PS2="$(FG dark)${CMD_SYMBOL}${RESET} "
     fi
-    PS1+=" \W "
+}
 
-    if [ -n "$CONDA_DEFAULT_ENV" ] || git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
-        PS1+="$(FG dark)$(BG sec)$PL_TRIANGLE_RIGHT$(FG white)$(BG sec)"
-        if [ -n "$CONDA_DEFAULT_ENV" ]; then
-            PS1+=" ${CONDA_SYMBOL}$CONDA_DEFAULT_ENV "
-        fi
-        if [ -n "$CONDA_DEFAULT_ENV" ] && git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
-            PS1+="$PL_ARROW_RIGHT"
-        fi
-        if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
-            PS1+=" $GIT_SYMBOL$(parse_git) "
-        fi
-        PS1+="${RESET}$(FG sec)$PL_TRIANGLE_RIGHT"
-    else
-        PS1+="${RESET}$(FG dark)$PL_TRIANGLE_RIGHT"
-    fi
-    PS1+="$(FG dark)${CMD_SYMBOL}${RESET} "
-
-    PS2="$(FG dark)${CMD_SYMBOL}${RESET} "
-fi
-
-
+PROMPT_COMMAND=set_powerline_prompt
