@@ -4,7 +4,8 @@ DARK="8"
 MAIN="4"
 SEC="12"
 
-FG() {
+FG()
+{
     case $1 in
         bWhite) echo -n "\[\033[1;38;5;${WHITE}m\]";;
         bMain) echo -n "\[\033[1;38;5;${MAIN}m\]";;
@@ -18,7 +19,8 @@ FG() {
     esac
 }
 
-BG() {
+BG()
+{
     case $1 in
         white) echo -n "\[\033[48;5;${WHITE}m\]";;
         main) echo -n "\[\033[48;5;${MAIN}m\]";;
@@ -28,15 +30,24 @@ BG() {
     esac
 }
 
-HOST_NAME=$(hostnamectl hostname --pretty)
-CMD_symbol=$(echo -n -e "\u2523")
-TOP_symbol=$(echo -e "\u250F\u2501\u252B")
-bSEP_symbol=$(echo -e "\u2503")
-SEP_symbol=$(echo -e "\u2502")
-BOTTOM_symbol=$(echo -e "\u2517\u252B")
-RESET="$(echo -n -e "\[\033[0m\]")"
 
-parse_git() {
+USE_POWERLINE_SYMBOLS=1
+SHOW_USER=1
+
+RESET="$(echo -n -e "\[\033[0m\]")"
+PL_CIRCLE_RIGHT=$(echo -e "\ue0b6")
+PL_CIRCLE_LEFT=$(echo -e "\ue0b4")
+PL_TRIANGLE_RIGHT=$(echo -e "\ue0b0")
+PL_TRIANGLE_LEFT=$(echo -e "\ue0b2")
+PL_ARROW_RIGHT=$(echo -e "\ue0b1")
+PL_ARROW_LEFT=$(echo -e "\ue0b3")
+CMD_SYMBOL=$(echo -e "\u2b9e")
+CONDA_SYMBOL=$(echo -e "\ue715")
+GIT_SYMBOL=$(echo -e "\ue725")
+
+
+parse_git()
+{
     # Get info
     local commit="$(git log --pretty=format:'%h' -n 1 2>/dev/null)"
     if [ -z "$commit" ]; then
@@ -52,26 +63,36 @@ parse_git() {
 }
 
 parse_time() {
-    echo -n " [ $(date +%T) ] "
+    echo -n "$(date +%T)"
 }
 
 PS1=""
-# First Line
-PS1+="$(FG dark)$TOP_symbol"
-PS1+="$(FG white)$(BG dark) $HOST_NAME $RESET"
-PS1+="$(FG dark)$bSEP_symbol\w $RESET\n"
+# 
+if [ "$USE_POWERLINE_SYMBOLS" -eq 1 ]; then
+    PS1+="$(FG dark)$PL_CIRCLE_RIGHT$(FG bWhite)$(BG dark)"
+    if [ "$SHOW_USER" -eq 1 ]; then
+        PS1+=" $USER $PL_ARROW_RIGHT"
+    fi
+    PS1+=" \W "
 
-# Second Line
-PS1+="$(FG dark)$BOTTOM_symbol$RESET"
-PS1+="$(FG dark)$(date +%T)${RESET}" # Time stamp
+    if [ -n "$CONDA_DEFAULT_ENV" ] || git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+        PS1+="$(FG dark)$(BG sec)$PL_TRIANGLE_RIGHT$(FG white)$(BG sec)"
+        if [ -n "$CONDA_DEFAULT_ENV" ]; then
+            PS1+=" ${CONDA_SYMBOL}$CONDA_DEFAULT_ENV "
+        fi
+        if [ -n "$CONDA_DEFAULT_ENV" ] && git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+            PS1+="$PL_ARROW_RIGHT"
+        fi
+        if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+            PS1+=" $GIT_SYMBOL$(parse_git) "
+        fi
+        PS1+="${RESET}$(FG sec)$PL_TRIANGLE_RIGHT"
+    else
+        PS1+="${RESET}$(FG dark)$PL_TRIANGLE_RIGHT"
+    fi
+    PS1+="$(FG dark)${CMD_SYMBOL}${RESET} "
 
-if [ -n "$CONDA_DEFAULT_ENV" ]; then
-    PS1+="$(FG main)${SEP_symbol}${CONDA_DEFAULT_ENV}${RESET}" # Conda environment
+    PS2="$(FG dark)${CMD_SYMBOL}${RESET} "
 fi
 
-if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
-    PS1+="$(FG sec)${SEP_symbol}\$(parse_git)${RESET}" # Git status
-fi
-
-PS1+="$(FG dark)$CMD_symbol${RESET} "
 
