@@ -131,3 +131,16 @@ conda-activate-env ()
 {
     conda activate "$(conda env list | grep -v '^#' | fzf | awk '{print $1}')"
 }
+
+# CUSTOM: open in editor
+fe()
+{
+  IFS=$'\n' files=($(fzf --query="$1" --multi --select-1 --exit-0 --preview="cat {}"))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+bind -m emacs-standard -x '"\C-f": fe'
+bind -m vi-command -x '"\C-f": fe'
+bind -m vi-insert -x '"\C-f": fe'
+
+
