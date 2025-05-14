@@ -1,5 +1,9 @@
 #! /bin/bash
 
+if ! ( [[ $(type -P iwconfig) ]]  && [[ $(type -P iwlist) ]] ); then
+    echo "Please make sure iwconfig and iwlist are installed"
+    exit 1
+fi
 
 iface=$(iwconfig 2>/dev/null | grep 'ESSID' | awk '{print $1}')
 
