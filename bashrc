@@ -24,3 +24,5 @@ umask 027
 if [ -d "$HOME/.cargo/" ]; then
     . "$HOME/.cargo/env"
 fi
+
+set -o vi
