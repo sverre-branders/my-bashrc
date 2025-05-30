@@ -32,7 +32,7 @@ BG()
 
 
 USE_POWERLINE_SYMBOLS=1
-SHOW_USER=1
+SHOW_USER=0
 
 RESET="$(echo -n -e "\[\033[0m\]")"
 PL_CIRCLE_RIGHT=$(echo -e "\ue0b6")
@@ -77,7 +77,7 @@ set_powerline_prompt() {
         PS1+=" \W "
 
         if [ -n "$CONDA_DEFAULT_ENV" ] || git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
-            PS1+="$(FG dark)$(BG sec)$PL_TRIANGLE_RIGHT$(FG white)$(BG sec)"
+            PS1+="$(FG dark)$(BG main)$PL_TRIANGLE_RIGHT$(FG white)$(BG main)"
             if [ -n "$CONDA_DEFAULT_ENV" ]; then
                 PS1+=" ${CONDA_SYMBOL} \$CONDA_DEFAULT_ENV "
             fi
@@ -87,7 +87,7 @@ set_powerline_prompt() {
             if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
                 PS1+=" $GIT_SYMBOL \$(parse_git) "
             fi
-            PS1+="${RESET}$(FG sec)$PL_TRIANGLE_RIGHT"
+            PS1+="${RESET}$(FG main)$PL_TRIANGLE_RIGHT"
         else
             PS1+="${RESET}$(FG dark)$PL_TRIANGLE_RIGHT"
         fi
