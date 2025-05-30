@@ -72,41 +72,40 @@ __fzf_history__() {
 # Required to refresh the prompt after fzf
 bind -m emacs-standard '"\er": redraw-current-line'
 
-bind -m vi-command '"\C-z": emacs-editing-mode'
+# bind -m vi-command '"\C-z": emacs-editing-mode'
 bind -m vi-insert '"\C-z": emacs-editing-mode'
 bind -m emacs-standard '"\C-z": vi-editing-mode'
 
 if (( BASH_VERSINFO[0] < 4 )); then
   # CTRL-T - Paste the selected file path into the command line
   bind -m emacs-standard '"\C-t": " \C-b\C-k \C-u`__fzf_select__`\e\C-e\er\C-a\C-y\C-h\C-e\e \C-y\ey\C-x\C-x\C-f"'
-  bind -m vi-command '"\C-t": "\C-z\C-t\C-z"'
+  # bind -m vi-command '"\C-t": "\C-z\C-t\C-z"'
   bind -m vi-insert '"\C-t": "\C-z\C-t\C-z"'
 
   # CTRL-R - Paste the selected command from history into the command line
   bind -m emacs-standard '"\C-r": "\C-e \C-u\C-y\ey\C-u"$(__fzf_history__)"\e\C-e\er"'
-  bind -m vi-command '"\C-r": "\C-z\C-r\C-z"'
+  # bind -m vi-command '"\C-r": "\C-z\C-r\C-z"'
   bind -m vi-insert '"\C-r": "\C-z\C-r\C-z"'
 else
   # CTRL-T - Paste the selected file path into the command line
   bind -m emacs-standard -x '"\C-t": fzf-file-widget'
-  bind -m vi-command -x '"\C-t": fzf-file-widget'
+  # bind -m vi-command -x '"\C-t": fzf-file-widget'
   bind -m vi-insert -x '"\C-t": fzf-file-widget'
 
   # CTRL-R - Paste the selected command from history into the command line
   bind -m emacs-standard -x '"\C-r": __fzf_history__'
-  bind -m vi-command -x '"\C-r": __fzf_history__'
+  # bind -m vi-command -x '"\C-r": __fzf_history__'
   bind -m vi-insert -x '"\C-r": __fzf_history__'
-fi
 
 # ALT-C - cd into the selected directory
 bind -m emacs-standard '"\ec": " \C-b\C-k \C-u`__fzf_cd__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
-bind -m vi-command '"\ec": "\C-z\ec\C-z"'
+# bind -m vi-command '"\ec": "\C-z\ec\C-z"'
 bind -m vi-insert '"\ec": "\C-z\ec\C-z"'
 
 # CUSTOM: ALT-B - cd back up the file tree
 source "${bashrc_path%/bashrc}/fzf/scripts/nav_back.sh"
 bind -m emacs-standard '"\eb": " \C-b\C-k \C-u`__cd_back__`\e\C-e\er\C-m\C-y\C-h\e \C-y\ey\C-x\C-x\C-d"'
-bind -m vi-command '"\eb": "\C-z\ec\C-z"'
+# bind -m vi-command '"\eb": "\C-z\ec\C-z"'
 bind -m vi-insert '"\eb": "\C-z\ec\C-z"'
 
 # CUSTOM: audio_device
@@ -120,7 +119,7 @@ fe()
 }
 
 bind -m emacs-standard -x '"\C-f": fe'
-bind -m vi-command -x '"\C-f": fe'
+# bind -m vi-command -x '"\C-f": fe'
 bind -m vi-insert -x '"\C-f": fe'
 
 fi
@@ -143,5 +142,4 @@ conda-activate-env ()
     conda activate "$(conda env list | grep -v '^#' | fzf | awk '{print $1}')"
 }
 
-
-
+fi
