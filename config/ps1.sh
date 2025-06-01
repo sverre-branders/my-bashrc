@@ -70,7 +70,8 @@ set_powerline_prompt() {
     PS1=""
     # 
     if [ "$USE_POWERLINE_SYMBOLS" -eq 1 ]; then
-        PS1+="$(FG dark)$PL_CIRCLE_RIGHT$(FG bWhite)$(BG dark)"
+        # PS1+="$(FG dark)$PL_CIRCLE_RIGHT$(FG bWhite)$(BG dark)"
+        PS1+="$(FG bWhite)$(BG dark)"
         if [ "$SHOW_USER" -eq 1 ]; then
             PS1+=" \$USER $PL_ARROW_RIGHT"
         fi

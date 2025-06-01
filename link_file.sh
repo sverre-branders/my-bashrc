@@ -11,8 +11,8 @@ if [ $# -eq 0 ]; then
         case "$response" in
             [yY][eE][sS]|[yY])
                 echo "Linking bashrc file and overwriting"
-		rm $HOME/.bashrc
-        	ln -rsf bashrc $HOME/.bashrc
+        rm $HOME/.bashrc
+            ln -rsf bashrc $HOME/.bashrc
                 ;;
             *)
                 echo "skipped."
@@ -21,4 +21,26 @@ if [ $# -eq 0 ]; then
     fi
     else
         echo "Run this script to link bashrc from this repository to $HOME/.bashrc"
+fi
+
+if [ $# -eq 0 ]; then
+    if [ ! -e $HOME/.inputrc ]; then
+        echo "Linking inputrc file"
+        ln -rsf inputrc $HOME/.inputrc
+    else
+        echo "Warning: inputrc already exists."
+        read -r -p "Are you sure you want to overwrite it? [y/N] " response
+        case "$response" in
+            [yY][eE][sS]|[yY])
+                echo "Linking inputrc file and overwriting"
+        rm $HOME/.inputrc
+            ln -rsf inputrc $HOME/.inputrc
+                ;;
+            *)
+                echo "skipped."
+                ;;
+        esac
+    fi
+    else
+        echo "Run this script to link inputrc from this repository to $HOME/.inputrc"
 fi
