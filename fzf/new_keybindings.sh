@@ -102,22 +102,20 @@ if [[ $(type -P fzf) ]]; then
 
         else
             if [[ -d "$path" ]]; then
-                cd "$path" || return 1
+                echo "cd \"$path\""
             elif [[ -f "$path" ]]; then
                 if [[ $(file --mime-type "$path") =~ "text" ]]; then
-                    ${EDITOR:-vim} "$path"
+                    echo "${EDITOR:-vim} \"$path\""
                 else
-                    xdg-open "$path" &>/dev/null &
+                    echo "xdg-open \"$path\" &>/dev/null &"
                 fi
             fi
         fi
     }
 
     if [[ $- == *i* ]]; then
-        echo "INTERACTIVE"
-    else
-        echo "NOT INTERACTIVE"
+        bind -m vi-insert '"\ec": "eval $(echo -e \"$_dir_fw_key\\n.\" | __navigate_vi_cmd_mode__)\n"'
+        bind -m vi-insert '"\eb": "eval $(echo -e \"$_dir_bw_key\\n.\" | __navigate_vi_cmd_mode__)\n"'
+        bind -m vi-insert '"\C-f": "eval $(echo -e \"$_file_key\\n.\" | __navigate_vi_cmd_mode__)\n"'
     fi
-
-    echo -e "$_dir_fw_key\n." | __navigate_vi_cmd_mode__
 fi
