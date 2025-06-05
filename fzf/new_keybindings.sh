@@ -113,9 +113,62 @@ if [[ $(type -P fzf) ]]; then
         fi
     }
 
+    # History
+    __fzfcmd() {
+        [[ -n "$TMUX_PANE" ]] && { [[ "${FZF_TMUX:-0}" != 0 ]] || [[ -n "$FZF_TMUX_OPTS" ]]; } &&
+            echo "fzf-tmux ${FZF_TMUX_OPTS:--d${FZF_TMUX_HEIGHT:-40%}} -- " || echo "fzf"
+    }
+
+    __fzf_history__() {
+        local output
+        output=$(
+            builtin fc -lnr -2147483648 |
+            last_hist=$(HISTTIMEFORMAT='' builtin history 1) perl -n -l0 -e 'BEGIN { getc; $/ = "\n\t"; $HISTCMD = $ENV{last_hist} + 1 } s/^[ *]//; print $HISTCMD - $. . "\t$_" if !$seen{$_}++' |
+          FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} $FZF_DEFAULT_OPTS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort,ctrl-z:ignore $FZF_CTRL_R_OPTS +m --read0" $(__fzfcmd) --query "$READLINE_LINE"
+        ) || return
+        READLINE_LINE=${output#*$'\t'}
+        if [[ -z "$READLINE_POINT" ]]; then
+            echo "$READLINE_LINE"
+        else
+            READLINE_POINT=0x7fffffff
+        fi
+    }
+
+
     if [[ $- == *i* ]]; then
         bind -m vi-insert '"\ec": "eval $(echo -e \"$_dir_fw_key\\n.\" | __navigate_vi_cmd_mode__)\n"'
         bind -m vi-insert '"\eb": "eval $(echo -e \"$_dir_bw_key\\n.\" | __navigate_vi_cmd_mode__)\n"'
         bind -m vi-insert '"\C-f": "eval $(echo -e \"$_file_key\\n.\" | __navigate_vi_cmd_mode__)\n"'
+
+        bind -m vi-insert -x '"\C-r": __fzf_history__'
+
+        git-commit-show () {
+            git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr"  | \
+                fzf --ansi --no-sort --reverse --tiebreak=index --preview \
+                'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show --color=always $1 ; }; f {}' \
+                --bind "alt-j:down,alt-k:up,alt-J:preview-down,alt-K:preview-up,ctrl-d:preview-page-down,ctrl-u:preview-page-up,alt-q:abort
+                        (grep -o '[a-f0-9]\{7\}' | head -1 |
+                        xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                        {}
+            FZF-EOF" --preview-window=right:60%
+        }
+
+        conda-activate-env () {
+            conda activate "$(conda env list | grep -v '^#' | fzf | awk '{print $1}')"
+        }
+
+        if [[ $(type -P pactl) ]]; then
+            audio-device() {
+                selected_device=$(pactl list short sinks | awk '{print $2}' | fzf --prompt="Select Audio Device:")
+
+                if [[ -n "$selected_device" ]]; then
+                    pactl set-default-sink "$selected_device"
+                    echo "Connected to $selected_device"
+                else
+                    return 1
+                fi
+            }
+        fi
+
     fi
 fi
