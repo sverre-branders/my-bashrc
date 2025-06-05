@@ -55,10 +55,23 @@ parse_git()
     fi
     local branch="$(git branch --show-current)"
 
+    # Check whether on main branch
+    default_branches=("main" "master")
+    local is_default_branch=false
+    for branch_name in "${default_branches[@]}"; do
+        if [[ "$branch" == "$branch_name" ]]; then
+            is_default_branch=true
+            break
+        fi
+    done
+
     # Print Status
     local string=""
-    string+="$branch-$commit"
-    string+=$modified
+    if ! $is_default_branch; then
+        string+="$branch-"
+    fi
+
+    string+="$commit"
     echo -n "$string"
 }
 
