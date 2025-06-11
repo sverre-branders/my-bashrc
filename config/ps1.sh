@@ -75,6 +75,18 @@ parse_git()
     echo -n "$string"
 }
 
+parse_conda() {
+    default_envs=("base" "python" "ePython")
+    for env in "${default_envs[@]}"; do
+        if [ "$CONDA_DEFAULT_ENV" = "$env" ]; then
+            echo " $CONDA_SYMBOL "
+            return
+        fi
+    done
+
+    echo " $CONDA_SYMBOL $CONDA_DEFAULT_ENV "
+}
+
 parse_time() {
     echo -n "$(date +%T)"
 }
@@ -90,15 +102,24 @@ set_powerline_prompt() {
         fi
         PS1+=" \W "
 
-        if [ -n "$CONDA_DEFAULT_ENV" ] || git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+        # Check whether default environment
+        if [ -n "$CONDA_DEFAULT_ENV" ]; then
+            has_conda_env=true
+        fi
+
+        if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+            is_git_dir=true
+        fi
+
+        if $has_conda_enc || $is_git_dir; then
             PS1+="$(FG dark)$(BG main)$PL_TRIANGLE_RIGHT$(FG white)$(BG main)"
-            if [ -n "$CONDA_DEFAULT_ENV" ]; then
-                PS1+=" ${CONDA_SYMBOL} \$CONDA_DEFAULT_ENV "
+            if $has_conda_env; then
+                PS1+="\$(parse_conda)"
             fi
-            if [ -n "$CONDA_DEFAULT_ENV" ] && git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+            if $has_conda_env && $is_git_dir; then
                 PS1+="$PL_ARROW_RIGHT"
             fi
-            if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
+            if $is_git_dir; then
                 PS1+=" $GIT_SYMBOL \$(parse_git) "
             fi
             PS1+="${RESET}$(FG main)$PL_TRIANGLE_RIGHT"
