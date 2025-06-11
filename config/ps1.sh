@@ -105,10 +105,14 @@ set_powerline_prompt() {
         # Check whether default environment
         if [ -n "$CONDA_DEFAULT_ENV" ]; then
             has_conda_env=true
+        else
+            has_conda_env=false
         fi
 
         if git rev-parse --is-inside-git-dir >/dev/null 2>&1; then
             is_git_dir=true
+        else
+            is_git_dir=false
         fi
 
         if $has_conda_enc || $is_git_dir; then
