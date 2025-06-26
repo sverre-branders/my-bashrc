@@ -18,7 +18,7 @@ source "${bashrc_path%/bashrc}/config/alias_and_funcs.sh"
 # source "${bashrc_path%/bashrc}/fzf/fzf_defaults.sh"
 source "${bashrc_path%/bashrc}/fzf/scripts/keep_cd_history.sh"
 source "${bashrc_path%/bashrc}/fzf/bash-completions-fzf"
-source "${bashrc_path%/bashrc}/fzf/new_keybindings.sh"
+source "${bashrc_path%/bashrc}/fzf/key-bindings.sh"
 
 umask 027
 if [ -d "$HOME/.cargo/" ]; then
