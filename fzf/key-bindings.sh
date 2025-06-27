@@ -57,7 +57,7 @@ if [[ $(type -P fzf) ]]; then
                 "$_file_key")   __fzf_file__ "${out[1]}";;
             esac
         else
-            echo "cd ${out[1]}"
+            echo "cd \"${out[1]}\""
         fi
     }
 
@@ -103,7 +103,7 @@ if [[ $(type -P fzf) ]]; then
                 "$_file_key")   __fzf_file__ "$dir";;
             esac
         else
-            echo "cd $dir"
+            echo "cd \"$dir\""
         fi
     }
 
