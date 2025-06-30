@@ -15,10 +15,10 @@ source "${bashrc_path%/bashrc}/config/ls_colors.sh"
 source "${bashrc_path%/bashrc}/config/alias_and_funcs.sh"
 
 # fzf
-# source "${bashrc_path%/bashrc}/fzf/fzf_defaults.sh"
 source "${bashrc_path%/bashrc}/fzf/scripts/keep_cd_history.sh"
 source "${bashrc_path%/bashrc}/fzf/bash-completions-fzf"
 source "${bashrc_path%/bashrc}/fzf/key-bindings.sh"
+source "${bashrc_path%/bashrc}/fzf/fzf_functions.sh"
 
 umask 027
 if [ -d "$HOME/.cargo/" ]; then
@@ -26,3 +26,5 @@ if [ -d "$HOME/.cargo/" ]; then
 fi
 
 set -o vi
+bind -m vi-insert '"\e[3:5~": shell-kill-word'
+
