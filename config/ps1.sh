@@ -132,7 +132,7 @@ set_powerline_prompt() {
         fi
         PS1+="$(FG dark)${CMD_SYMBOL}${RESET} "
 
-        PS2="$(FG dark)${CMD_SYMBOL}${RESET} "
+        PS2="$(FG dark)${PL_TRIANGLE_RIGHT}${CMD_SYMBOL}${RESET} "
     fi
 }
 
