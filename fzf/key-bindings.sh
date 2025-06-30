@@ -154,8 +154,9 @@ if [[ $(type -P fzf) ]]; then
 
 
     if [[ $- == *i* ]]; then
-        bind -m vi-insert -x '"\C-g":__fzf_nav__ 1'
+        bind -m vi-insert -x '"\C-g":__fzf_nav__ 1 accept-line'
         bind -m vi-insert -x '"\C-b":__fzf_nav__ 2'
         bind -m vi-insert -x '"\C-f":__fzf_nav__ 3'
+        bind -m vi-insert -x '"\C-r": __fzf_history__'
     fi
 fi
