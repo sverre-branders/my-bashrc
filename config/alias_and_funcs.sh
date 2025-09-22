@@ -12,3 +12,13 @@ json() {
 
 alias R='R --no-save --no-restore-data'
 alias conda_export='conda env export --no-builds | grep -v "^prefix: "'
+
+# git
+alias gis='git status -s'
+alias gia='git add'
+alias gic='git commit'
+
+# rust
+rdoc () {
+    w3m $(rustup doc --path $1)
+}
