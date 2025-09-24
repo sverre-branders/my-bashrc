@@ -27,3 +27,7 @@ rdoc () {
 get-bibtex () {
     curl -LH "Accept: application/x-bibtex" $1
 }
+
+copy-citation () {
+    bibtex-ls $1 | fzf --ansi | bibtex-cite | xclip
+}
