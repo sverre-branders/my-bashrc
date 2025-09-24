@@ -29,5 +29,5 @@ get-bibtex () {
 }
 
 copy-citation () {
-    bibtex-ls $1 | fzf --ansi | bibtex-cite | xclip
+    bibtex-ls $1 | fzf --ansi | bibtex-cite -prefix="" | xclip -selection clipboard
 }
