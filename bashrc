@@ -28,3 +28,6 @@ fi
 set -o vi
 bind -m vi-insert '"\e[3:5~": shell-kill-word'
 
+if [ -x "$(command -v go)" ];then
+    export PATH="$HOME/go/bin:$PATH"
+fi
