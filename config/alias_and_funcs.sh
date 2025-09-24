@@ -22,3 +22,8 @@ alias gic='git commit'
 rdoc () {
     w3m $(rustup doc --path $1)
 }
+
+# bibtex
+get-bibtex () {
+    curl -LH "Accept: application/x-bibtex" $1
+}
