@@ -89,7 +89,7 @@ if [[ $(type -P fzf) ]]; then
         fi
 
         local out=$(
-            echo -e "$directory_list" | fzf --expect=${_dir_fw_key},${_dir_bw_key},${_file_key},ctrl-c --query="$query" --preview="ls -a {}"
+            echo -e "$directory_list" | fzf --expect=${_dir_fw_key},${_dir_bw_key},${_file_key},ctrl-c --query="$query" --preview="echo {} | sed 's/^[0-9]*: //; s/^/\"/; s/$/\"/' | xargs ls -a"
         )
 
         local key=$(head -1 <<< "$out")
