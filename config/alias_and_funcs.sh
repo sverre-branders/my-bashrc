@@ -25,7 +25,16 @@ rdoc () {
 
 # bibtex
 get-bibtex () {
-    curl -LH "Accept: application/x-bibtex" $1
+    if [[ ! $1 =~ ^https?:// ]] && [[ ! $1 =~ doi ]]; then
+        link="https://doi.org/$1"
+    else
+        link=$1
+    fi
+
+    bibtex=$(curl -LH "Accept: application/x-bibtex" "$link")
+
+    echo "$bibtex"
+    echo "$bibtex" | xclip -selection clipboard
 }
 
 copy-citation () {
